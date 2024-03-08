@@ -55,29 +55,26 @@ function PZNS_AgentWong.clearNPCsNeeds()
 end
 
 --- Cows: Example of spawning in an NPC. This NPC is "Agent Wong"
+--- The provided example code to spawn the NPC by replacing SpawnSquare with playerSurvivor:getSquare() didn't work as intended.
+--- Until I get a better grasp on LUA I've ripped code from the Jill Tester NPC creation. This enabled spawning of the custom NPC for me.
 function PZNS_AgentWong.spawnMyNPC()
     local isNPCActive = PZNS_NPCsManager.getActiveNPCBySurvivorID(npcSurvivorID);
-    local isSpawned = false;
-    -- Cows: Check if the NPC is active before continuing.
-    if (isNPCActive == nil) then
-        local playerSurvivor = getSpecificPlayer(0);
-        -- Cows: This should spawn Wong in the Rosewood Fire Department, 2nd floor.
-        local spawnX, spawnY, spawnZ = 8140, 11740, 1;
-        local isInSpawnRange = PZNS_WorldUtils.PZNS_IsSquareInPlayerSpawnRange(playerSurvivor, spawnX, spawnY, spawnZ);
-        -- Cows: Check if npc isInSpawnRange
-        if (isInSpawnRange == true) then
-            local spawnSquare = getCell():getGridSquare(
-                spawnX,                                                  -- GridSquareX
-                spawnY,                                                  -- GridSquareY
-                spawnZ                                                   -- Floor level
-            );
-            PZNS_WorldUtils.PZNS_ClearZombiesFromSquare(spawnSquare, 3); -- Cows: This function call will clear zombies within 3 squares of the NPC
+    local defaultID = 0;
+    --
+    local playerID = "Player" .. tostring(defaultID);
+    local playerGroupID = "Player" .. tostring(defaultID) .. "Group";
+    local isGroupExists = PZNS_NPCGroupsManager.getGroupByID(playerGroupID);
+    -- Cows: Check if the group exists before continuing, can be removed if NPC doesn't need or have a group.
+    if (isGroupExists) then
+        -- Cows: Check if the NPC is active before continuing.
+        if (isNPCActive == nil) then
+            local playerSurvivor = getSpecificPlayer(defaultID);
             local npcSurvivor = PZNS_NPCsManager.createNPCSurvivor(
-                npcSurvivorID,                                           -- Unique Identifier for the npcSurvivor so that it can be managed.
-                true,                                                    -- isFemale
-                "Wong",                                                  -- Surname
-                "Agent",                                                 -- Forename
-                spawnSquare                                              -- Square to spawn at
+                npcSurvivorID,             -- Unique Identifier for the npcSurvivor so that it can be managed.
+                true,                      -- isFemale
+                "Wong",                    -- Surname
+                "Agent",                   -- Forename
+                playerSurvivor:getSquare() -- Square to spawn at
             );
             --
             if (npcSurvivor ~= nil) then
