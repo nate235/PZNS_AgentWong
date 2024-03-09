@@ -1,7 +1,7 @@
-name=PZNS_AgentWong
+name=PZNS_AgentNate
 poster=poster.png
-id=PZNS_AgentWong
-description=Project Zomboid NPC Spawning Framework - Agent Wong in Rosewood Fire Department
-url=https://github.com/shadowhunter100/PZNS_AgentWong
+id=PZNS_AgentNate
+description=Project Zomboid NPC Spawning Framework - Agent Nate "special" agent for testing, spawns on player on game start
+url=https://github.com/nate235/PZNS_AgentWong
 versionMin=41.1
 require=PZNS_Framework
